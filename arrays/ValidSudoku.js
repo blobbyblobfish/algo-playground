@@ -6,14 +6,27 @@
 var isValidSudoku = function(board) {
     let valid = true
     
-    for (row = 0; row < board.length; row++) {
-        let uniqueRow = new Set(board[row])
-        uniqueRow.delete(".") //remove empty value
+    for (let column = 0; column < 9; column++) {
+        let boardColumn = []
         
-        console.log(uniqueRow == board[row])
-                
-        uniqueRow.forEach(val => {
-            if (duplicateFinder(val, board[row])) { 
+        for (let row = 0; row < 9; row++) {
+            let uniqueRow = new Set(board[row])
+            uniqueRow.delete(".")
+            
+            uniqueRow.forEach(val => {
+                if (duplicateFinder(val, board[row])) { 
+                    valid = false
+                }
+            })
+            
+            boardColumn.push(board[row][column])
+        }
+        
+        let uniqueColumn = new Set(boardColumn)
+        uniqueColumn.delete(".")
+        
+        uniqueColumn.forEach(val => {
+            if (duplicateFinder(val, boardColumn)) { 
                 valid = false
             }
         })
@@ -23,11 +36,7 @@ var isValidSudoku = function(board) {
 };
 
 function duplicateFinder(val, array) {
-    
-    console.log(array.filter(cell => cell === val))
-        
     if (array.filter(cell => cell === val).length > 1) {
-        console.log("duplicate found")
         return true
     }
 }
