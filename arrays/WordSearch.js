@@ -6,59 +6,75 @@
 
 var exist = function(board, word) {
     for (let row = 0; row < board.length; row++) {
-        
-        if (board[row].includes(word[0])) {
-            
-            const column = board[row].indexOf(word[0])
-            
-            word = word.slice(1)
-
-            const found = searchUpDownLeftRight(board, word, row, column)
-            
-            console.log("searchUpDownLeftRight", found)
+        for (let column = 0; column < board[row].length; column++) {
                         
-            if (found) {
-                return found
+            if (board[row][column] === word[0]) {
+                console.log(row, column)
+
+                let wordCopy = word.slice(1)
+                let boardCopy = Array.from(board)
+                let boardCopyRow = row
+                let boardCopyColumn = column
+
+                while (wordCopy) {
+                    letter = wordCopy[0]
+
+                    boardCopy[boardCopyRow][boardCopyColumn] = 0
+
+                    if (wordCopy === "") {
+                        return true
+                    }
+
+                    console.log(letter)
+
+                    // search right
+                    if (boardCopyColumn < board[row].length - 1) {
+                        if (boardCopy[boardCopyRow][boardCopyColumn + 1] === letter) {
+                            console.log("found", letter)
+                            wordCopy = wordCopy.slice(1)
+                            boardCopyColumn = boardCopyColumn + 1
+                            continue
+                        }
+                    }
+
+                    // search left
+                    if (boardCopyColumn > 0) {
+                        console.log(letter, boardCopyRow, boardCopyColumn - 1)
+                        if (boardCopy[boardCopyRow][boardCopyColumn - 1] === letter) {
+                            console.log("found", letter)
+                            wordCopy = wordCopy.slice(1)
+                            boardCopyColumn = boardCopyColumn - 1
+                            continue
+                        }
+                    }
+
+                    // search up
+                    if (boardCopyRow > 0) {
+                        if (boardCopy[boardCopyRow - 1][boardCopyColumn] === letter) {
+                            console.log("found", letter)
+                            wordCopy = wordCopy.slice(1)
+                            boardCopyRow = boardCopyRow - 1
+                            continue
+                        }
+                    }
+
+                    // search down
+                    if (boardCopyRow < board.length - 1) {
+                        if (boardCopy[boardCopyRow + 1][boardCopyColumn] === letter) {
+                            console.log("found", letter)
+                            wordCopy = wordCopy.slice(1)
+                            boardCopyRow = boardCopyRow + 1
+                            console.log("row of found letter", boardCopyRow)
+                            continue
+                        }
+                    }
+
+                    console.log("not found")                
+                    break
+                }
             }
-        }
+        } 
     }
         
     return false
 };
-
-function searchUpDownLeftRight(board, word, row, column) {
-    const letter = word[0]
-    word = word.slice(1)
-    board[row][column] = 0
-    
-    if (word === "") {
-        return true
-    }
-        
-    if (column < board[row].length - 1) {
-        if (board[row][column + 1] === letter) {
-            searchUpDownLeftRight(board, word, row, column + 1)
-        }
-    }
-    
-    if (column > 0) {
-        if (board[row][column - 1] === letter) {
-            searchUpDownLeftRight(board, word, row, column - 1)
-        }
-    }
-    
-    if (row > 0) {
-        if (board[row - 1][column] === letter) {
-            searchUpDownLeftRight(board, word, row - 1, column)
-        }
-    }
-    
-    if (row < board.length - 1) {
-        if (board[row + 1][column] === letter) {
-            searchUpDownLeftRight(board, word, row + 1, column)
-        }
-    }
-    
-    console.log(letter, "this function is about to return")
-    return false
-}
