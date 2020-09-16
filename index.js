@@ -1,12 +1,12 @@
-import { description, examples, solution } from './strings/RomanToInt1.js'
+import { description, examples, solution } from './objects/Chronograph3.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     const main = document.getElementById("main")
 
     main.innerHTML = `
     <p>${description}</p>
-    <p>${examples[3]}</p>
-    <p>${solution(examples[3])}</p>
+    <p>${JSON.stringify(examples)}</p>
+    <p>${JSON.stringify(solution(examples))}</p>
     `
 })
 
