@@ -3,6 +3,8 @@ example: hit, cog
 hit => hot => dot => dog => cog
 dictionary: [hot, dot, lot, dog, fog]
 return 5 (minimum number of steps from A to B inclusive)
+
+source: https://www.interviewbit.com/problems/word-ladder-i/
 =end
 
 def count_transforms(a, b, c)
